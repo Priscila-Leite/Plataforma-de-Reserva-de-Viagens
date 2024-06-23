@@ -17,6 +17,7 @@ public class Cliente {
         this.orcamento = orcamento;
     }
 
+
     @Override
     public String toString() {
         return
@@ -27,5 +28,10 @@ public class Cliente {
                 ", estrelas: " + estrelas + " estrelas" +
                 ", orcamento: R$ " + orcamento +
                 '}';
+    }
+
+    public boolean orcamento(int estrelas, int total){
+        if ((estrelas >= this.estrelas) && (total <= orcamento)) return true;
+        return false;
     }
 }
