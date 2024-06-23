@@ -26,7 +26,7 @@ public class Cliente {
                 ", chegada: " + chegada +
                 ", estadia: " + estadia + " dias" +
                 ", estrelas: " + estrelas + " estrelas" +
-                ", orcamento: R$ " + orcamento +
+                ", orcamento: R$ " + String.format("%.2f", orcamento) +
                 '}';
     }
 
