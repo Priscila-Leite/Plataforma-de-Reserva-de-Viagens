@@ -14,7 +14,7 @@ interface Gerenciamento {
     List<Hotel> getLista();
 }
 
-class Hoteis implements Gerenciamento {
+public class Hoteis implements Gerenciamento {
     private List<Hotel> listaHoteis;
 
     public Hoteis(String arquivoCsv) {
@@ -167,7 +167,7 @@ class Clientes {
     }
 }
 
-public class superhotel {
+class Main {
     private static final Object lock = new Object();
 
     public static void imprimirEscolha(Cliente cliente) {
