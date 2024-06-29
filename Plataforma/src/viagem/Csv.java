@@ -14,7 +14,7 @@ public class Csv {
     public FileReader fr;
     Csv(String path){
         try {
-            this.path_uri = new File("").getAbsolutePath() + "/java/trab/Plataforma/" + path;
+            this.path_uri = new File("").getAbsolutePath() + "/csv/" + path;
             File file = new File(path_uri);
             this.fr = new FileReader(file);
             this.br = new BufferedReader(fr);

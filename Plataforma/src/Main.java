@@ -1,6 +1,7 @@
 import viagem.Cliente;
-import viagem.Voos;
+import viagem.Voo;
 import viagem.LeitorCSV;
+import viagem.Pesquisador;
 import viagem.Csv;
 
 import java.util.function.Consumer;
@@ -18,9 +19,9 @@ public class Main {
         // List<Cliente> clientes = ler.LeitorClientes("Plataforma/src/csv/clientes.csv");
     }
     public static void regasi(String[] args){
-        String pasta = "src/csv/voos.csv";
-        for(Voos s : Voos.get_registros_by_destino(pasta, "RIO")){
-            System.out.printf("%s\n", s);
-        }
+        // for(Voo e : Voo.get_registros_by_origem("voos.csv", "RIO")){
+        //     System.out.println(e);
+        // }
+        Pesquisador.orcamento();
     }
 }

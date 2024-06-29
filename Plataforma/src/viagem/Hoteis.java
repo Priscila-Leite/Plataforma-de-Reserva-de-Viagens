@@ -177,28 +177,28 @@ class Clientes {
     }
 }
 
-public class Main {
-    public static void main(String[] args) {
-        String diretorioHoteis = "caminho/para/arquivo/hoteis.csv"; 
-        String arquivoClientes = "caminho/para/arquivo/clientes.csv"; 
+// public class Main {
+//     public static void main(String[] args) {
+//         String diretorioHoteis = "caminho/para/arquivo/hoteis.csv"; 
+//         String arquivoClientes = "caminho/para/arquivo/clientes.csv"; 
 
-        Hoteis hoteis = new Hoteis(diretorioHoteis);
-        Clientes clientes = new Clientes(arquivoClientes, hoteis);
+//         Hoteis hoteis = new Hoteis(diretorioHoteis);
+//         Clientes clientes = new Clientes(arquivoClientes, hoteis);
 
-        List<Thread> threadsClientes = new ArrayList<>();
-        for (Cliente cliente : clientes.getListaClientes()) {
-            threadsClientes.add(cliente);
-            cliente.start();
-        }
+//         List<Thread> threadsClientes = new ArrayList<>();
+//         for (Cliente cliente : clientes.getListaClientes()) {
+//             threadsClientes.add(cliente);
+//             cliente.start();
+//         }
 
-        for (Thread cliente : threadsClientes) {
-            try {
-                cliente.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//         for (Thread cliente : threadsClientes) {
+//             try {
+//                 cliente.join();
+//             } catch (InterruptedException e) {
+//                 e.printStackTrace();
+//             }
+//         }
 
-        System.out.println("Todos os clientes escolheram seus hotéis.");
-    }
-}
+//         System.out.println("Todos os clientes escolheram seus hotéis.");
+//     }
+// }
