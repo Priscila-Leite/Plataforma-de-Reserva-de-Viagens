@@ -11,10 +11,11 @@ public class Pesquisador {
         // Varre todos os clientes
         for(Cliente c : lista_clientes){
 
-            
-            LinkedList<Voo> lista_voos = Voo.get_caminho("voos.csv", c.saida, c.chegada);
-            // for(Voo v : lista_voos) System.out.printf("%s\n", v);
+            // Pega todos os voos mas separado em uma lista de voos diretos e voos indiretos
+            LinkedList<LinkedList<Voo>> lista_dupla = Voo.get_caminho_separado("voos.csv", c.saida, c.chegada);
 
+            // Para todos os caminhos indiretos, procura os caminhos diretos
+            Voo.alter_list_voo_by_destino("voos.csv", lista_dupla.get(1), c.chegada);
         }
         
 
