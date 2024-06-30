@@ -11,18 +11,23 @@ import main.jv.viagem.modelos.Cliente;
 import main.jv.viagem.modelos.Hotel;
 
 public class CSV {
-    String linha, separador = ",";
-
-    public List<Cliente> leitorClientes(String arquivo){
-        List<Cliente> clientes = new ArrayList<>();
+    private String linha, separador = ",";
+    private List<Hotel> hoteis;
+    private List<Cliente> clientes;
+    
+    // Método para ler clientes a partir de um arquivo CSV
+    public List<Cliente> leitorClientes(String arquivo) {
+        clientes = new ArrayList<>();
 
         try (BufferedReader l = new BufferedReader(new FileReader(arquivo))) {
-            l.readLine();
+            l.readLine(); // Ignora o cabeçalho
             
             while ((linha = l.readLine()) != null) {
                 String[] dados = linha.split(separador);
 
-                Cliente temp = new Cliente(dados[0], dados[1], dados[2], Integer.parseInt(dados[3]), Integer.parseInt(dados[4]), Float.parseFloat(dados[5]));
+                // Cria um novo Cliente a partir dos dados do CSV e adiciona à lista
+                Cliente temp = new Cliente(dados[0], dados[1], dados[2], Integer.parseInt(dados[3]),
+                        Integer.parseInt(dados[4]), Float.parseFloat(dados[5]));
 
                 clientes.add(temp);
             }
@@ -31,20 +36,22 @@ public class CSV {
         } catch (IOException e) {
             System.out.println("ERRO: Leitura");
         }
-        
         return clientes;
     }
 
-    public List<Hotel> leitorHoteis(String arquivo){
-        List<Hotel> hoteis = new ArrayList<>();
+    // Método para ler hotéis a partir de um arquivo CSV
+    public List<Hotel> leitorHoteis(String arquivo) {
+        hoteis = new ArrayList<>(); 
 
         try (BufferedReader l = new BufferedReader(new FileReader(arquivo))) {
-            l.readLine();
+            l.readLine(); // Ignora o cabeçalho
             
             while ((linha = l.readLine()) != null) {
                 String[] dados = linha.split(separador);
 
-                Hotel temp = new Hotel(dados[0], dados[1], Integer.parseInt(dados[2]), Float.parseFloat(dados[3]), Integer.parseInt(dados[4]));
+                // Cria um novo Hotel a partir dos dados do CSV e adiciona à lista
+                Hotel temp = new Hotel(dados[0], dados[1], Integer.parseInt(dados[2]), Float.parseFloat(dados[3]),
+                        Integer.parseInt(dados[4]));
 
                 hoteis.add(temp);
             }
@@ -53,9 +60,17 @@ public class CSV {
         } catch (IOException e) {
             System.out.println("ERRO: Leitura");
         }
-
         return hoteis;
     }
 
-    
+    // Retorna a lista de clientes lidos do arquivo CSV
+    public List<Cliente> getlist() {
+        return clientes;
+    }
+
+    // Retorna a lista de hotéis lidos do arquivo CSV
+    public List<Hotel> gethoteis() {
+        return hoteis;
+    }
 }
+

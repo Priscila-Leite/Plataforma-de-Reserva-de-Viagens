@@ -5,6 +5,7 @@ public class Cliente {
     private int estadia;
     private int estrelas;
     private float orcamento;
+    private Hotel hotelEscolhido;
 
     public Cliente(String nome,String saida,
                     String chegada,int estadia,
@@ -35,8 +36,13 @@ public class Cliente {
     public int getEstadia(){
         return estadia;
     }
+    public Hotel getHotelEscolhido() {
+        return hotelEscolhido;
+    }
 
-
+    public void setHotelEscolhido(Hotel hotelEscolhido) {
+        this.hotelEscolhido = hotelEscolhido;
+    }
     @Override
     public String toString() {
         return
