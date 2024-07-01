@@ -7,11 +7,14 @@ interface Icmp_cliente {
     boolean cmp(Cliente v);
 }
 
-public class Cliente {
+public class Cliente implements Runnable{
     String saida, chegada;
     int cod, estadia;
     int estrelas;
     float orcamento;
+
+    LinkedList<Cliente> lista;
+    String nome_arquivo;
 
     public Cliente(String linha[]){
         this.cod = Integer.valueOf(linha[0]);
@@ -20,6 +23,13 @@ public class Cliente {
         this.estadia = Integer.valueOf(linha[3]);
         this.estrelas = Integer.valueOf(linha[4]);
         this.orcamento = Float.valueOf(linha[5]);
+    }
+
+    public Cliente(String nome){
+        this.nome_arquivo = nome;
+    }
+
+    public Cliente(){
     }
 
     public static LinkedList<Cliente> get_registros(String nome){
@@ -65,8 +75,13 @@ public class Cliente {
             this.orcamento);
     }
 
-    public boolean orcamento(int estrelas, int total){
-        if ((estrelas >= this.estrelas) && (total <= orcamento)) return true;
-        return false;
+    @Override
+    public void run(){
+        this.lista = get_registros(this.nome_arquivo);
     }
+
+    // public boolean orcamento(int estrelas, int total){
+    //     if ((estrelas >= this.estrelas) && (total <= orcamento)) return true;
+    //     return false;
+    // }
 }

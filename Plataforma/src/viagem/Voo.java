@@ -9,13 +9,16 @@ interface Icmp_voo {
     boolean cmp(Object ... args);
 }
 
-public class Voo{
+public class Voo implements Runnable{
     private String origem;
     private String destino;
     private String data;
     private int horario;
     private int assentos;
-    private float preco;
+    private Double preco;
+
+    LinkedList<Voo> lista;
+    String nome_arquivo;
 
     public String getOrigem() {
         return origem;
@@ -57,11 +60,11 @@ public class Voo{
         this.assentos = assentos;
     }
 
-    public float getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(float preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
@@ -82,7 +85,14 @@ public class Voo{
         this.assentos = Integer.valueOf(linha[4]);
 
         // preço
-        this.preco = Integer.valueOf(linha[5]);
+        this.preco = Double.valueOf(linha[5]);
+    }
+
+    Voo(String nome){
+        this.nome_arquivo = nome;
+    }
+
+    Voo(){
     }
 
     public static LinkedList<Voo> get_registros(String nome){
@@ -138,88 +148,65 @@ public class Voo{
         return lista;
     }
 
-    // public static LinkedList<Voo> get_registros(String nome, Icmp_voo f, Object args[]){
-    //     Csv arquivo = new Csv(nome);
-    //     String[] linha;
-    //     LinkedList<Voo> lista = new LinkedList();
-    //     linha = arquivo.readLine();
-    //     do{
-    //         linha = arquivo.readLine();
-    //         if(linha == null) continue;
+    public static LinkedList<LinkedList<Voo>> get_caminho_duplo(String nome, String origem, String destino){
 
-    //         Voo reg = new Voo(linha);
-    //         if(f.cmp(reg, args)) lista.add(reg);
-    //     } while(linha != null);
-    //     arquivo.close();
-    //     return lista;
-    // }
-
-
-    // public static LinkedList<Voo> get_registros_by_origem(String nome, String origem){
-    //     Icmp_voo cmp = (Object ... args) -> {
-    //         Voo v = (Voo) args[0];
-    //         if(v.origem.equals(origem)) return true;
-    //         return false;
-    //     };
-    //     return get_registros(nome, cmp);
-    // }
-
-    // public static LinkedList<Voo> get_registros_by_destino(String nome, String destino){
-    //     Icmp_voo cmp = (Object ... args) -> {
-    //         Voo v = (Voo) args[0];
-    //         if(v.destino.equals(destino)) return true;
-    //         return false;
-    //     };
-    //     return get_registros(nome, cmp);
-    // }
-
-    public static LinkedList<LinkedList<Voo>> get_caminho_separado(String nome, String origem, String destino){
+        // Abre o arquivo
         Csv arquivo = new Csv(nome);
         String[] linha;
-        LinkedList<Voo> lista_caminho = new LinkedList(),
-                        lista_nao_caminho = new LinkedList();
+        LinkedList<LinkedList<Voo>> lista_final = new LinkedList<LinkedList<Voo>>();
+        LinkedList<Voo> lista;
         linha = arquivo.readLine();
+
+        // Prepara a o parâmetro e as funções auxiliáres para get
         Icmp_voo cmp = (Object ... args) -> {
             Voo v = (Voo) args[0];
             String o = (String) args[1], d = (String) args[2];
             if(v.origem.equals(o) && v.destino.equals(d)) return true;
             return false;
         };
-        Object args[] = new Object[3];
-        args[1] = origem;
-        args[2] = destino;
+        Object args1[] = new Object[3], args2[] = new Object[3];
+        args1[1] = origem;
+        args1[2] = destino;
+        args2[2] = destino;
 
-        do{
-            linha = arquivo.readLine();
-            if(linha == null) continue;
+        // Pega todos os registros
+        LinkedList<Voo> lista_registros = get_registros(nome);
 
-            Voo reg = new Voo(linha); 
-            args[0] = reg;
-            if(cmp.cmp(args)) lista_caminho.add(reg);
-            else lista_nao_caminho.add(reg);
-        } while(linha != null);
+        // Varre os registros e verifica se é um caminho direto e caminho duplo
+        for(Voo v1 : lista_registros){
+            lista = new LinkedList<Voo>();
+            args1[0] = v1;
+            if(cmp.cmp(args1)) lista.add(v1);
+            else{
 
-        LinkedList<LinkedList<Voo>> lista = new LinkedList<LinkedList<Voo>>();
-        lista.add(lista_caminho);
-        lista.add(lista_nao_caminho);
+                args2[1] = v1.destino;
+                for(Voo v2 : lista_registros){
+                    args2[0] = v2;
+                    if(cmp.cmp(args2)) lista.add(v2);
+                }
+            }
+            if(lista.size() > 0) lista_final.add(lista);
+        }
 
         arquivo.close();
-        return lista;
+        return lista_final;
     }
 
     public static LinkedList<Voo> alter_list_voo_by_destino(String nome, LinkedList<Voo> lista, String destino){
-        for(int i=0; i<lista.length; i++)
+
+        for(int i=0; i<lista.size(); i++)
             if(!lista.get(i).destino.equals(destino))
                 lista.remove(i);
         return lista;
     }
 
-    // public static LinkedList<Voo> get_caminho(){
-        
-    // }
+    @Override
+    public void run(){
+        this.lista = get_registros(this.nome_arquivo);
+    }
 
     public String toString(){
-        return String.format("%s-%s-%s-%d-%d-%.2f", 
+        return String.format("%s-%s-%s-%d-%d-%.0f", 
             this.origem,
             this.destino,
             this.data,
