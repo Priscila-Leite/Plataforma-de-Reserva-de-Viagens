@@ -9,15 +9,17 @@ import main.jv.viagem.modelos.Cliente;
 import main.jv.viagem.modelos.Hotel;
 
 public class Funcoes {
-    public int melhorHotel(List<Hotel> hoteis, int minEstrelas, String local){
+    public int melhorHotel(List<Hotel> hoteis, Cliente c){
         List<Integer> resp = new ArrayList<>();
         int i = 0;
         for(Hotel h : hoteis){
-            if ((h.getLocalizacao().equals(local)) && (h.getEstrelas() >= minEstrelas) && (h.getVagas() > 0)){
+            if ((h.getLocalizacao().equals(c.getChegada())) && (h.getEstrelas() >= c.getEstrelas()) && (h.getVagas() > 0))
                 resp.add(i);
-            }
+            
             i++;
         }
+
+        if (resp.size() == 0) return -1;
 
         // Ordena pelo preço
    
@@ -32,15 +34,6 @@ public class Funcoes {
                 }
             });
         return resp.get(0);
-    }
-
-    // reservar hotel
-
-    // Verificar orcamento
-    public boolean verOrcamento(Hotel hotel, Voo ida, Voo volta, Cliente cliente){
-        double soma = hotel.getPreco() * cliente.getEstadia() + ida.getPreco() + volta.getPreco;
-        if (soma <= cliente.getOrcamento()) return true;
-        return false;
     }
 
 }

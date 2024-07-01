@@ -1,25 +1,50 @@
 package main.jv.viagem;
 
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Scanner;
 
 import main.jv.viagem.modelos.Cliente;
 import main.jv.viagem.modelos.Hotel;
 import main.jv.viagem.processos.CSV;
 import main.jv.viagem.processos.Funcoes;
+import main.jv.viagem.processos.Paralelo;
 
 public class Main {
     public static void main(String[] args){
+        Scanner ler = new Scanner(System.in);
+        System.out.print("Escolha o fluxo desejado:\n[0] Sequêncial\n[1] Paralelo\n");
+        int fluxo = ler.nextInt();
+        ler.close();
+
         CSV csv = new CSV();
         Funcoes funcoes = new Funcoes();
 
-
-        List<Cliente> clientes = csv.leitorClientes("Plataforma/src/main/csv/clientes.csv");
+        List<Cliente> clientes = csv.leitorClientes("Plataforma/src/main/csv/clientes_10000.csv");
         List<Hotel> hoteis = csv.leitorHoteis("Plataforma/src/main/csv/hoteis.csv");
 
-        int temp = funcoes.melhorHotel(hoteis, 4, "SAO");
-        System.out.println(hoteis.get(temp));
-        hoteis.get(temp).choose();
-        System.out.println(hoteis.get(temp));
+        long startTime, endTime;
+        if (fluxo == 0){
+            startTime = System.nanoTime();
+            String resp = "Plataforma/src/testes/test.csv";
+            for (Cliente c : clientes){
+                int h = funcoes.melhorHotel(hoteis, c);
+                if (h != -1)
+                    csv.escreverFinal(c.reservar(hoteis.get(h)), resp);
+                else
+                    csv.escreverFinal(c.toString(), resp);
+            }
+            endTime = System.nanoTime();
+        } else {
+            startTime = System.nanoTime();
+            for (Cliente c : clientes){
+            Thread c1 = new Thread(new Paralelo(c, hoteis, csv, funcoes));
+            c1.start();
+            }
+            endTime = System.nanoTime();
+        }
+        
+        long duracao = (endTime - startTime)/1000000000;
+        System.out.println("Tempo de execução: " + duracao + " segundos");
     }
 }

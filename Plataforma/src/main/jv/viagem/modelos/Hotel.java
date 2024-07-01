@@ -1,10 +1,11 @@
 package main.jv.viagem.modelos;
 
+import java.util.Locale;
+
 public class Hotel {
     private String nome, localizacao;
     private double preco;
     private int vagas, estrelas;
-    private int vagasAtual;
 
     public Hotel(String localizacao, String nome, int vagas, double preco, int estrelas){
         this.localizacao = localizacao;
@@ -12,7 +13,6 @@ public class Hotel {
         this.vagas = vagas;
         this.preco = preco;
         this.estrelas = estrelas;
-        vagasAtual = vagas;
     }
 
     public String getNome() {
@@ -30,18 +30,14 @@ public class Hotel {
     public int getVagas() {
         return vagas;
     }
-    public void choose(){
-        vagasAtual -= 1;
+    public void reservar(){
+        if (vagas > 0)
+            this.vagas--;
     }
     
 
     @Override
     public String toString() {
-        return
-                "nome: " + nome +
-                ", localizacao: " + localizacao +
-                ", estrelas: " + estrelas + " estrelas" +
-                ", preco: R$ " + String.format("%.2f", preco) +
-                ", vagas: " + vagas;
+        return nome + "," + estrelas + "," + String.format(Locale.US, "%.2f", preco);
     }
 }

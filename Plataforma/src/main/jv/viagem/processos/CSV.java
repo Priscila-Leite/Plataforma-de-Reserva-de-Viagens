@@ -1,8 +1,10 @@
 package main.jv.viagem.processos;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +59,12 @@ public class CSV {
         return hoteis;
     }
 
-    
+    public void escreverFinal(String dados, String arquivo) {
+        try (BufferedWriter e = new BufferedWriter(new FileWriter(arquivo, true))) {
+            e.write(dados);
+            e.newLine();
+        } catch (IOException x) {
+            System.err.println("Erro ao escrever arquivo");
+        }
+    }
 }

@@ -1,5 +1,8 @@
 package main.jv.viagem.modelos;
 
+import java.util.Locale;
+import main.jv.viagem.processos.Funcoes;
+
 public class Cliente {
     private String nome, saida, chegada;
     private int estadia;
@@ -36,16 +39,28 @@ public class Cliente {
         return estadia;
     }
 
-
     @Override
     public String toString() {
-        return
-                "nome: " + nome +
-                ", saida: " + saida +
-                ", chegada: " + chegada +
-                ", estadia: " + estadia + " dias" +
-                ", estrelas: " + estrelas + " estrelas" +
-                ", orcamento: R$ " + String.format("%.2f", orcamento);
+        return nome + "," + String.format(Locale.US, "%.2f", orcamento);
     }
-  
+    Funcoes f = new Funcoes();
+    public double verOrcamento(Hotel hotel/*, List<Voo> voos*/){
+        double soma = hotel.getPreco() * estadia;
+        //for (Voo v : voos) soma += v.getPreco;
+
+        if (soma <= orcamento) return soma;
+        return 0.0;
+    }
+
+    public String reservar(Hotel h/*, List<Voo> v*/){
+        String dados = this.toString();
+        if (verOrcamento(h/*, v*/) > 0) {
+            dados += "," + h.toString();
+            //for (Voo voo : v) dados += voo.toString();
+            dados += "," + String.format(Locale.US, "%.2f", verOrcamento(h));
+            h.reservar();
+            //v.reservar();
+        }
+        return dados;
+    }
 }
