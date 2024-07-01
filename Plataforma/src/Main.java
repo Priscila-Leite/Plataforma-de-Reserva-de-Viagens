@@ -40,7 +40,7 @@ public class Main {
         l2 = p2.orcamento_thread(4);
         t2.quit();
 
-        Pesquisador.imp(l2);
+        // Pesquisador.imp(l2);
         System.out.println(l2.size());
 
         System.err.printf("Tempo do algoritmo sem threads (em milissegundos): %d\nTempo do algoritmo com threads (em milissegundos): %d\n", t1.get(), t2.get());

@@ -95,7 +95,7 @@ public class Pesquisador implements Runnable{
     public Hotel get_valid_hotel(Voo v1, Cliente c){
         double preco;
         for(Hotel h : this.lista_hoteis.lista){
-            if(h.getLocalizacao().equals(c.chegada)){
+            if(h.getLocalizacao().equals(c.chegada) && h.getEstrelas() >= c.estrelas){
                 preco = v1.getPreco() + h.getPreco(); 
                 if((preco <= c.orcamento) && (h.getVagas() > 0) && (this.r.nextInt(2) != 0)){
                     h.setVagas(h.getVagas()-1);
@@ -108,7 +108,7 @@ public class Pesquisador implements Runnable{
     public Hotel get_valid_hotel(Voo v1, Voo v2, Cliente c){
         double preco;
         for(Hotel h : this.lista_hoteis.lista){
-            if(h.getLocalizacao().equals(c.chegada)){
+            if(h.getLocalizacao().equals(c.chegada) && h.getEstrelas() >= c.estrelas){
                 preco = v1.getPreco() + v2.getPreco() + h.getPreco(); 
                 if((preco <= c.orcamento) && (h.getVagas() > 0) && (this.r.nextInt(2) != 0)){
                     h.setVagas(h.getVagas()-1);
