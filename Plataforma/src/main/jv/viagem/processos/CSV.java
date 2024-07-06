@@ -11,6 +11,7 @@ import java.util.List;
 
 import main.jv.viagem.modelos.Cliente;
 import main.jv.viagem.modelos.Hotel;
+import main.jv.viagem.modelos.Voo;
 
 public class CSV {
     String linha, separador = ",";
@@ -57,6 +58,33 @@ public class CSV {
         }
 
         return hoteis;
+    }
+
+    public List<Voo> leitorVoos(String arquivo){
+        List<Voo> voos = new ArrayList<>();
+
+        try (BufferedReader l = new BufferedReader(new FileReader(arquivo))) {
+            l.readLine();
+            
+            while ((linha = l.readLine()) != null) {
+                String[] dados = linha.split(separador);
+
+                String d[] = dados[2].split("/");
+                String data = String.format("%s/%s/%s", d[2], d[1], d[0]);
+
+                int horario = Integer.valueOf(dados[3].split(":")[0]) * 60 + Integer.valueOf(dados[3].split(":")[1]);
+
+                Voo temp = new Voo(dados[0], dados[1], data, horario, Integer.valueOf(dados[4]), Integer.valueOf(dados[5]));
+
+                voos.add(temp);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("ERRO: Arquivo não encontrado");
+        } catch (IOException e) {
+            System.out.println("ERRO: Leitura");
+        }
+        
+        return voos;
     }
 
     public void escreverFinal(String dados, String arquivo) {
