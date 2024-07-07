@@ -21,7 +21,7 @@ public class Main {
         CSV csv = new CSV();
         Funcoes funcoes = new Funcoes();
 
-        List<Cliente> clientes = csv.leitorClientes("Plataforma/src/main/csv/clientes_10000.csv");
+        List<Cliente> clientes = csv.leitorClientes("Plataforma/src/main/csv/clientes_100.csv");
         List<Hotel> hoteis = csv.leitorHoteis("Plataforma/src/main/csv/hoteis.csv");
         List<Voo> voos = csv.leitorVoos("Plataforma/src/main/csv/voos.csv");
 
@@ -32,7 +32,7 @@ public class Main {
             for (Cliente c : clientes){
                 int h = funcoes.melhorHotel(hoteis, c);
                 List<Voo> v = funcoes.melhorCaminho(c.getSaida(), c.getChegada(), voos);
-                if (h != -1)
+                if (h != -1 && v.size() > 0)
                     csv.escreverFinal(c.reservar(hoteis.get(h), v), resp);
                 else
                     csv.escreverFinal(c.toString(), resp);

@@ -56,11 +56,13 @@ public class Cliente {
     public String reservar(Hotel h, List<Voo> v){
         String dados = this.toString();
         if (verOrcamento(h, v) > 0) {
-            dados += "," + h.toString();
-            for (Voo voo : v){
-                dados += "," + voo.toString();
-                voo.reservar();
-            }
+            dados += "," + h.toString() + "," + v.get(0).toString();
+            v.get(0).reservar();
+            
+            if (v.size() == 2){
+                dados += "," + v.get(1).toString();
+                v.get(1).reservar();
+            } else dados += ",,,,,";
             dados += "," + String.format(Locale.US, "%.2f", verOrcamento(h, v));
             h.reservar();
         }

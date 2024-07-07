@@ -75,12 +75,11 @@ public class Voo{
     }
 
     public String toString(){
-        return String.format("%s,%s,%s,%d,%d,%d", 
+        return String.format("%s,%s,%s,%d:00,%d", 
             this.origem,
             this.destino,
             this.data,
-            this.horario,
-            this.assentos,
+            this.horario/60,
             this.preco
         );
     }
