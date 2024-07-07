@@ -47,7 +47,7 @@ public class Main {
             endTime = System.nanoTime();
         }
         
-        long duracao = (endTime - startTime)/1000000000;
-        System.out.println("Tempo de execução: " + duracao + " segundos");
+        long duracao = (endTime - startTime)/1000000;
+        System.out.println("Tempo de execução: " + duracao + " milisegundos");
     }
 }
