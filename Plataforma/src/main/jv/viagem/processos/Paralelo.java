@@ -28,7 +28,7 @@ public class Paralelo implements Runnable {
         List<Voo> vl = funcoes.melhorCaminho(cliente.getSaida(), cliente.getChegada(), voos);
 
         synchronized (csv) {
-            if (h != -1) {
+            if (h != -1 && vl.size() > 0) {
                 String dadosReserva = cliente.reservar(hoteis.get(h), vl);
                 csv.escreverFinal(dadosReserva, saida);
             } else {

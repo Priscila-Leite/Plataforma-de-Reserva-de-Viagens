@@ -21,7 +21,7 @@ public class Main {
         CSV csv = new CSV();
         Funcoes funcoes = new Funcoes();
 
-        List<Cliente> clientes = csv.leitorClientes("Plataforma/src/main/csv/clientes_100.csv");
+        List<Cliente> clientes = csv.leitorClientes("Plataforma/src/main/csv/clientes_20000.csv");
         List<Hotel> hoteis = csv.leitorHoteis("Plataforma/src/main/csv/hoteis.csv");
         List<Voo> voos = csv.leitorVoos("Plataforma/src/main/csv/voos.csv");
 
